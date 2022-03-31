@@ -5,7 +5,6 @@
 define("BRAND_ID", "398809496132060018");
 define("SCV2_URL", "https://scv2.gcp-staging.testingnow.me");
 define("PRIVATE_KEY", "TXAjwm8k53PJG9NacLbyZavvQB2qBh43");
-define("ECP_TOKEN", "ck_449950aa1b5f86b2cb0de9660be50ee22757b479|cs_1b55f9d32b6185a6daea1c8bd99f00a801b6de7f");
 
 /*
  * Redirect to SCV2
@@ -17,7 +16,7 @@ function proceed_to_swift_checkout_v2() {
     global $woocommerce;
 
     // Get customer email
-    $customerEmail = $woocommerce->cart->get_customer()->get_email();
+    $customer_email = $woocommerce->cart->get_customer()->get_email();
 
     // Check user logged in or not.
     $isLogin = (is_user_logged_in() ? true : false);
@@ -33,17 +32,21 @@ function proceed_to_swift_checkout_v2() {
         $cart_key = $cookie[0];
     }
 
+    // Logged in customer id
+    $customer_id = "";
+    if ( $isLogin ) {
+        $customer_id = $woocommerce->session->get_customer_id();
+    }
+
     // Payload for encrypting
     $payload = [
-        "ecp_token" => ECP_TOKEN,
+        "ecp_token" => base64_encode($customer_id.'|'.BRAND_ID),
         "brand_id" => BRAND_ID,
-        "cart_id" => $cart_key,
+        "cart_id" => base64_encode($cart_key.'|'.BRAND_ID),
         "currency" => get_woocommerce_currency(),
-        "email" => $customerEmail,
+        "email" => $customer_email,
         "isLogin" => $isLogin
     ];
-
-    // print_r(json_encode($payload));die();
 
     // Encrypting payload
     $encryptionMethod = "AES-256-CBC";
