@@ -149,6 +149,9 @@ final class SCV2 {
 		// Shipping Method functions.
 		include_once SCV2_ABSPATH . 'includes/scv2-shipping-method-functions.php';
 
+		// Payment Method functions.
+		include_once SCV2_ABSPATH . 'includes/scv2-payment-method-functions.php';
+
 		// WP-CLI.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			include_once SCV2_ABSPATH . 'includes/class-scv2-cli.php';

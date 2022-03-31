@@ -117,6 +117,7 @@ class SCV2_REST_API {
 			'scv2-v2-cart-set-billing-address'	=> 'SCV2_Set_Billing_Address_v2_Controller',
 			'scv2-v2-cart-set-shipping-address'	=> 'SCV2_Set_Shipping_Address_v2_Controller',
 			'scv2-v2-cart-set-shipping-method'	=> 'SCV2_Set_Shipping_Method_v2_Controller',
+			'scv2-v2-cart-set-payment-method'	=> 'SCV2_Set_Payment_Method_v2_Controller',
 		);
 	}
 
@@ -267,6 +268,7 @@ class SCV2_REST_API {
 		include_once dirname( __FILE__ ) . '/api/class-scv2-set-billing-address-controller.php';
 		include_once dirname( __FILE__ ) . '/api/class-scv2-set-shipping-address-controller.php';
 		include_once dirname( __FILE__ ) . '/api/class-scv2-set-shipping-method-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-scv2-set-payment-method-controller.php';
 
 		do_action( 'scv2_rest_api_controllers' );
 	} // rest_api_includes()
