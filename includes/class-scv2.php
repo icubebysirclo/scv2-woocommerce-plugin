@@ -146,6 +146,9 @@ final class SCV2 {
 		// REST API functions.
 		include_once SCV2_ABSPATH . 'includes/scv2-rest-functions.php';
 
+		// Shipping Method functions.
+		include_once SCV2_ABSPATH . 'includes/scv2-shipping-method-functions.php';
+
 		// WP-CLI.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			include_once SCV2_ABSPATH . 'includes/class-scv2-cli.php';

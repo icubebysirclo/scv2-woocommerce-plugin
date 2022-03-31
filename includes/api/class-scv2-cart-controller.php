@@ -75,28 +75,231 @@ class SCV2_Cart_V2_Controller extends SCV2_API_Controller {
 	 * Get cart.
 	 */
 	public function get_cart( $request = array(), $deprecated = '' ) {
-		$show_raw      = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
-		$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
+		// Auth
+		if ( is_user_logged_in() ) {
+			$show_raw      = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
+			$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
-		/**
-		 * Runs before getting cart. Useful for add-ons or 3rd party plugins.
-		 */
-		$cart_contents = apply_filters( 'scv2_before_get_cart', $cart_contents, $this->get_cart_instance(), $request );
+			/**
+			 * Runs before getting cart. Useful for add-ons or 3rd party plugins.
+			 */
+			$cart_contents = apply_filters( 'scv2_before_get_cart', $cart_contents, $this->get_cart_instance(), $request );
 
-		// Return cart contents raw if requested.
-		if ( $show_raw ) {
-			return $cart_contents;
+			// Return cart contents raw if requested.
+			if ( $show_raw ) {
+				return $cart_contents;
+			}
+
+			/**
+			 * Deprecated action hook `scv2_get_cart`.
+			 */
+			wc_deprecated_hook( 'scv2_get_cart', '1.0.0', null, null );
+
+			$cart_contents = $this->return_cart_contents( $request, $cart_contents );
+
+			$finale_cart_contents = $this->custom_mapping_cart_scv2( $cart_contents );
+
+			// return SCV2_Response::get_response( $cart_contents, $this->namespace, $this->rest_base );
+			return SCV2_Response::get_response( $finale_cart_contents, $this->namespace, $this->rest_base );
 		}
 
-		/**
-		 * Deprecated action hook `scv2_get_cart`.
-		 */
-		wc_deprecated_hook( 'scv2_get_cart', '1.0.0', null, null );
-
-		$cart_contents = $this->return_cart_contents( $request, $cart_contents );
-
-		return SCV2_Response::get_response( $cart_contents, $this->namespace, $this->rest_base );
+		return SCV2_Response::get_error_response( 'Unauthorized', __('You shall not pass'), 401 );
 	} // END get_cart()
+
+	/**
+	 * Return custom maping cart.
+	 */
+	public function custom_mapping_cart_scv2( $cart_contents = array() ) {
+		// Custom mapping array
+		$finale_cart_contents['cart_key'] = $cart_contents['cart_key'];
+		$finale_cart_contents['billing_address'] = $this->get_cart_billing_address( $cart_contents['cart_key'] );
+		$finale_cart_contents['shipping_address'] = $this->get_cart_shipping_address( $cart_contents['cart_key'] );
+		$finale_cart_contents['items'] = $cart_contents['items'];
+		$finale_cart_contents['shipping_method'] = $this->get_cart_shipping( $cart_contents['cart_key'] );
+		$finale_cart_contents['payment_method'] = $this->get_cart_payment( $cart_contents['cart_key'] );
+		$finale_cart_contents['coupons'] = $this->get_cart_coupons( $cart_contents['cart_key'] );
+		$finale_cart_contents['totals'] = $this->get_cart_totals( $cart_contents['cart_key'] );;
+
+		return $finale_cart_contents;
+	} // END custom_mapping_cart_scv2()
+
+	/**
+	 * Return cart billing address.
+	 */
+	public function get_cart_billing_address ( $cart_key ) {
+		// Get cart_billing_address
+		global $wpdb;
+
+	    $results = $wpdb->get_var( 
+	    	$wpdb->prepare("
+	    		SELECT cart_billing_address 
+	    		FROM {$wpdb->prefix}scv2_carts 
+	    		WHERE cart_key = %s", $cart_key 
+	    	) 
+	    );
+
+	    // Return null if empty
+	    if ( empty($results) ) {
+			return null;
+	    }
+
+	    // Unserialize data
+	    $cart_billing_address = maybe_unserialize( $results );
+
+	    return $cart_billing_address;
+	} // END get_cart_billing_address()
+
+	/**
+	 * Return cart shipping address.
+	 */
+	public function get_cart_shipping_address ( $cart_key ) {
+		// Get cart_shipping_address
+		global $wpdb;
+
+	    $results = $wpdb->get_var( 
+	    	$wpdb->prepare("
+	    		SELECT cart_shipping_address 
+	    		FROM {$wpdb->prefix}scv2_carts 
+	    		WHERE cart_key = %s", $cart_key 
+	    	) 
+	    );
+
+	    // Return null if empty
+	    if ( empty($results) ) {
+			return null;
+	    }
+
+	    // Unserialize data
+	    $cart_shipping_address = maybe_unserialize( $results );
+
+	    return $cart_shipping_address;
+	} // END get_cart_shipping_address()
+
+	/**
+	 * Return cart shipping.
+	 */
+	public function get_cart_shipping ( $cart_key ) {
+		// Get cart_shipping
+		global $wpdb;
+
+	    $results = $wpdb->get_var( 
+	    	$wpdb->prepare("
+	    		SELECT cart_shipping 
+	    		FROM {$wpdb->prefix}scv2_carts 
+	    		WHERE cart_key = %s", $cart_key 
+	    	) 
+	    );
+
+	    // Return null if empty
+	    if ( empty($results) ) {
+			return null;
+	    }
+
+	    // Unserialize data
+	    $cart_shipping = maybe_unserialize( $results );
+
+	    return $cart_shipping;
+	} // END get_cart_shipping()
+
+	/**
+	 * Return cart payment.
+	 */
+	public function get_cart_payment ( $cart_key ) {
+		// Get cart_payment
+		global $wpdb;
+
+	    $results = $wpdb->get_var( 
+	    	$wpdb->prepare("
+	    		SELECT cart_payment 
+	    		FROM {$wpdb->prefix}scv2_carts 
+	    		WHERE cart_key = %s", $cart_key 
+	    	) 
+	    );
+
+	    // Return null if empty
+	    if ( empty($results) ) {
+			return null;
+	    }
+
+	    // Unserialize data
+	    $cart_shipping = maybe_unserialize( $results );
+
+	    return $cart_shipping;
+	} // END get_cart_payment
+
+	/**
+	 * Return cart coupons.
+	 */
+	public function get_cart_coupons ( $cart_key ) {
+		// Get cart_coupons
+		global $wpdb;
+
+	    $results = $wpdb->get_var( 
+	    	$wpdb->prepare("
+	    		SELECT cart_coupons 
+	    		FROM {$wpdb->prefix}scv2_carts 
+	    		WHERE cart_key = %s", $cart_key 
+	    	) 
+	    );
+
+	    // Return null if empty
+	    if ( empty($results) ) {
+			return null;
+	    }
+
+	    // Unserialize data
+	    $cart_shipping = maybe_unserialize( $results );
+
+	    return $cart_shipping;
+	} // END get_cart_coupons
+
+	/**
+	 * Return cart totals.
+	 */
+	public function get_cart_totals ( $cart_key ) {
+		// Get cart_totals from session
+		global $wpdb;
+
+	    $cart_value = $wpdb->get_var( 
+	    	$wpdb->prepare("
+	    		SELECT cart_value 
+	    		FROM {$wpdb->prefix}scv2_carts 
+	    		WHERE cart_key = %s", $cart_key 
+	    	) 
+	    );
+
+	    // Unserialize data
+	    $cart_value = maybe_unserialize( $cart_value );
+	    $cart_totals = maybe_unserialize( $cart_value['cart_totals'] );
+
+	    // Get cart shipping total
+	    $cart_shipping = $this->get_cart_shipping( $cart_key );
+
+	    // Calculate shipping
+	    if ( $cart_shipping ) {
+	    	$cart_totals['total'] = intval( $cart_totals['total'] ) + intval( $cart_shipping['total'] );
+	    	$cart_totals['shipping_total'] = $cart_shipping['total'];
+	    }
+
+	    // Normalize type data
+	    $cart_totals['subtotal'] = intval( $cart_totals['subtotal'] );
+	    $cart_totals['cart_contents_total'] = intval( $cart_totals['cart_contents_total'] );
+	    $cart_totals['fee_total'] = intval( $cart_totals['fee_total'] );
+
+	    // Save calculated total
+	    $wpdb->update(
+	    	$wpdb->prefix.'scv2_carts', 
+	    	array('cart_totals' => maybe_serialize( $cart_totals )), 
+	    	array('cart_key' => $cart_key)
+	    );
+
+	    // Return null if empty
+	    if ( empty($cart_totals) ) {
+			return null;
+	    }
+
+	    return $cart_totals;
+	} // END get_cart_totals
 
 	/**
 	 * Return cart contents.

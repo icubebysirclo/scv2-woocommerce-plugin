@@ -54,3 +54,15 @@ function proceed_to_swift_checkout_v2() {
     $redirect_url = SCV2_URL.'/authentication?state='.$encrypted;
     wp_redirect($redirect_url);
 }
+
+/*
+ * Hide shipping address and shipping method, so customer would not confused.
+ */
+add_filter( 'woocommerce_cart_needs_shipping', 'filter_cart_needs_shipping' );
+
+function filter_cart_needs_shipping( $needs_shipping ) {
+    if ( is_cart() ) {
+        $needs_shipping = false;
+    }
+    return $needs_shipping;
+}
