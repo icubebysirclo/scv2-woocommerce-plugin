@@ -35,12 +35,12 @@ function proceed_to_swift_checkout_v2() {
     // Logged in customer id
     $customer_id = "";
     if ( $isLogin ) {
-        $customer_id = $woocommerce->session->get_customer_id();
+        $customer_id = base64_encode($woocommerce->session->get_customer_id().'|'.BRAND_ID);
     }
 
     // Payload for encrypting
     $payload = [
-        "ecp_token" => base64_encode($customer_id.'|'.BRAND_ID),
+        "ecp_token" => $customer_id,
         "brand_id" => BRAND_ID,
         "cart_id" => base64_encode($cart_key.'|'.BRAND_ID),
         "currency" => get_woocommerce_currency(),

@@ -118,6 +118,8 @@ class SCV2_REST_API {
 			'scv2-v2-cart-set-shipping-address'	=> 'SCV2_Set_Shipping_Address_v2_Controller',
 			'scv2-v2-cart-set-shipping-method'	=> 'SCV2_Set_Shipping_Method_v2_Controller',
 			'scv2-v2-cart-set-payment-method'	=> 'SCV2_Set_Payment_Method_v2_Controller',
+			'scv2-v2-cart-apply-coupon'			=> 'SCV2_Apply_Coupon_v2_Controller',
+			'scv2-v2-cart-remove-coupon'		=> 'SCV2_Remove_Coupon_v2_Controller',
 		);
 	}
 
@@ -269,6 +271,8 @@ class SCV2_REST_API {
 		include_once dirname( __FILE__ ) . '/api/class-scv2-set-shipping-address-controller.php';
 		include_once dirname( __FILE__ ) . '/api/class-scv2-set-shipping-method-controller.php';
 		include_once dirname( __FILE__ ) . '/api/class-scv2-set-payment-method-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-scv2-apply-coupon-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-scv2-remove-coupon-controller.php';
 
 		do_action( 'scv2_rest_api_controllers' );
 	} // rest_api_includes()
