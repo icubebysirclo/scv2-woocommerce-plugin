@@ -27,6 +27,17 @@ function proceed_to_swift_checkout_v2() {
     // Get cart cookie... if any.
     $cookie = $woocommerce->session->get_session_cookie();
 
+    // Get wp_scv2_session_
+    foreach ( $_COOKIE as $key => $value ) {
+        if ( strpos( $key, 'wp_scv2_session_') !== FALSE ) {
+            $scv2_session_key = $key;
+            $scv2_session_value = $value;
+        }
+    }
+
+    // URL encode wp_scv2_session_
+    $scv2_cookie = $scv2_session_key.'='.urlencode($scv2_session_value);
+
     // If a cookie exist, override cart key.
     if ( $cookie ) {
         $cart_key = $cookie[0];
@@ -35,14 +46,14 @@ function proceed_to_swift_checkout_v2() {
     // Logged in customer id
     $customer_id = "";
     if ( $isLogin ) {
-        $customer_id = base64_encode($woocommerce->session->get_customer_id().'|'.BRAND_ID);
+        $customer_id = base64_encode($woocommerce->session->get_customer_id());
     }
 
     // Payload for encrypting
     $payload = [
         "ecp_token" => $customer_id,
         "brand_id" => BRAND_ID,
-        "cart_id" => base64_encode($cart_key.'|'.BRAND_ID),
+        "cart_id" => base64_encode($scv2_cookie.'|'.$cart_key),
         "currency" => get_woocommerce_currency(),
         "email" => $customer_email,
         "isLogin" => $isLogin
