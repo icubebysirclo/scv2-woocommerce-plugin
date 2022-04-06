@@ -46,7 +46,7 @@ class SCV2_Remove_Coupon_v2_Controller {
 	 */
 	public function remove_coupon( $request = array() ) {
 		// Auth
-		if ( is_user_logged_in() ) {
+		// if ( is_user_logged_in() ) {
 			try {
 				// Check cart_key
 				if (! isset($request['cart_key']) ) {
@@ -130,9 +130,9 @@ class SCV2_Remove_Coupon_v2_Controller {
 			} catch ( SCV2_Data_Exception $e ) {
 				return SCV2_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 			}
-		}
+		// }
 
-		return SCV2_Response::get_error_response( 'Unauthorized', __('You shall not pass'), 401 );
+		// return SCV2_Response::get_error_response( 'Unauthorized', __('You shall not pass'), 401 );
 	} // END set_shipping_method()
 
 } // END class
