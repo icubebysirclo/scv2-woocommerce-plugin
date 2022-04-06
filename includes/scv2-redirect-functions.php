@@ -5,7 +5,6 @@
 define("BRAND_ID", "398809496132060018");
 define("SCV2_URL", "https://scv2.gcp-staging.testingnow.me");
 define("PRIVATE_KEY", "TXAjwm8k53PJG9NacLbyZavvQB2qBh43");
-define("ECP_TOKEN", "ck_449950aa1b5f86b2cb0de9660be50ee22757b479|cs_1b55f9d32b6185a6daea1c8bd99f00a801b6de7f");
 
 /*
  * Redirect to SCV2
@@ -47,12 +46,12 @@ function proceed_to_swift_checkout_v2() {
     // Logged in customer id
     $customer_id = "";
     if ( $isLogin ) {
-        $customer_id = $woocommerce->session->get_customer_id();
+        $customer_id = base64_encode($woocommerce->session->get_customer_id());
     }
 
     // Payload for encrypting
     $payload = [
-        "ecp_token" => base64_encode($customer_id.'|'.ECP_TOKEN),
+        "ecp_token" => $customer_id,
         "brand_id" => BRAND_ID,
         "cart_id" => base64_encode($scv2_cookie.'|'.$cart_key),
         "currency" => get_woocommerce_currency(),
