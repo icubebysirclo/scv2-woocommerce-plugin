@@ -55,14 +55,13 @@ class SCV2_Set_Shipping_Method_v2_Controller {
 
 				// Get parameters
 				$cart_key = $request['cart_key'];
-				$shipping_provider = ! isset( $request['shipping_provider'] ) ? "" : $request['shipping_provider'];
-				$shipping_service = ! isset( $request['shipping_service'] ) ? "" : $request['shipping_service'];
+				$shipping_title = ! isset( $request['shipping_title'] ) ? "" : $request['shipping_title'];
 				$shipping_cost 	= ! isset( $request['shipping_cost'] ) ? "" : $request['shipping_cost'];
 
 				// Formatting data
 				$cart_shipping = array(
 					'method_id' => 'scv2',
-					'method_title' => wc_clean( $shipping_provider.' - '.$shipping_service ),
+					'method_title' => $shipping_title,
 					'total' => $shipping_cost 
 				);
 
