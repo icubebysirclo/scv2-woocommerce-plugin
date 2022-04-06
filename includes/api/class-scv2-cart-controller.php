@@ -76,7 +76,7 @@ class SCV2_Cart_V2_Controller extends SCV2_API_Controller {
 	 */
 	public function get_cart( $request = array(), $deprecated = '' ) {
 		// Auth
-		if ( is_user_logged_in() ) {
+		// if ( is_user_logged_in() ) {
 			$show_raw      = ! empty( $request['raw'] ) ? $request['raw'] : false; // Internal parameter request.
 			$cart_contents = ! $this->get_cart_instance()->is_empty() ? array_filter( $this->get_cart_instance()->get_cart() ) : array();
 
@@ -101,9 +101,9 @@ class SCV2_Cart_V2_Controller extends SCV2_API_Controller {
 
 			// return SCV2_Response::get_response( $cart_contents, $this->namespace, $this->rest_base );
 			return SCV2_Response::get_response( $finale_cart_contents, $this->namespace, $this->rest_base );
-		}
+		// }
 
-		return SCV2_Response::get_error_response( 'Unauthorized', __('You shall not pass'), 401 );
+		// return SCV2_Response::get_error_response( 'Unauthorized', __('You shall not pass'), 401 );
 	} // END get_cart()
 
 	/**
