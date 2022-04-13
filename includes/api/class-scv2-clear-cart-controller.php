@@ -101,8 +101,6 @@ class SCV2_Clear_Cart_v2_Controller {
 
 			$cart_key = $request['cart_key'];
 
-			// print_r($cart_key);die();
-
 			// Clear cart from db
 			$wpdb->update(
 		    	$wpdb->prefix.'scv2_carts', 
