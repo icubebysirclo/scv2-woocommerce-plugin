@@ -53,17 +53,20 @@ class SCV2_Remove_Coupon_v2_Controller {
 					return SCV2_Response::get_error_response( 'Bad Request', __('Field `cart_key` must be define'), 400 );
 				}
 
-				// Check coupon_code
-				if (! isset($request['coupon_code']) ) {
-					return SCV2_Response::get_error_response( 'Bad Request', __('Field `coupon_code` must be define'), 400 );
-				}
-
 				// Define global
 				global $woocommerce;
 
 				// Get parameters
 				$cart_key = $request['cart_key'];
-				$coupon_code = $request['coupon_code'];
+
+				// Get applied coupon code
+				$coupon_code = WC()->cart->get_applied_coupons();
+
+				// print_r($coupon_code[0]);die();
+
+				if ( $coupon_code ) {
+					$coupon_code = $coupon_code[0];
+				}
 
 				// Create an instance of WC_Coupon
 				$coupon = new WC_Coupon( $coupon_code );
