@@ -245,7 +245,7 @@ function add_payment_confirm_button_detail_order( $order ) {
     global $base_url_dashboard;
 
     // If order status is BANK TRANSFER, show payment confirm
-    if ( $order->get_payment_method_title() == 'BANK_TRANSFER – BANK TRANSFER' ) {
+    if ( $order->get_payment_method_title() == 'BANK_TRANSFER - BANK TRANSFER' ) {
         $url = $base_url_dashboard.'/confirmpayment?orderId='.$order->get_id().'';
 
         // Render HTML
