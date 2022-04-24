@@ -9,7 +9,7 @@ define("SCV2_URL_PRODUCTION", "https://checkout.getswift.asia");
 define("SCV2_CUSTOMER_DASHBOARD_URL_STAGING", "https://scv2-dashboard.gcp-staging.testingnow.me");
 define("SCV2_CUSTOMER_DASHBOARD_URL_PRODUCTION", "https://belanjaku.app");
 define("PRIVATE_KEY", "TXAjwm8k53PJG9NacLbyZavvQB2qBh43");
-define("PRODUCTION_MODE", 1);
+define("PRODUCTION_MODE", 0);
 
 global $brand_id;
 global $base_url;
