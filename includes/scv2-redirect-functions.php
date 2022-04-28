@@ -9,7 +9,7 @@ define("SCV2_URL_PRODUCTION", "https://checkout.getswift.asia");
 define("SCV2_CUSTOMER_DASHBOARD_URL_STAGING", "https://scv2-dashboard.gcp-staging.testingnow.me");
 define("SCV2_CUSTOMER_DASHBOARD_URL_PRODUCTION", "https://belanjaku.app");
 define("PRIVATE_KEY", "TXAjwm8k53PJG9NacLbyZavvQB2qBh43");
-define("PRODUCTION_MODE", 0);
+define("IS_PRODUCTION", 0);
 
 global $brand_id;
 global $base_url;
@@ -21,7 +21,7 @@ $base_url = SCV2_URL_PRODUCTION;
 $base_url_dashboard = SCV2_CUSTOMER_DASHBOARD_URL_PRODUCTION; 
 
 // Define production env
-if ( PRODUCTION_MODE == 0 ) {
+if ( IS_PRODUCTION == 0 ) {
     $brand_id = BRAND_ID_STAGING;
     $base_url = SCV2_URL_STAGING;
     $base_url_dashboard = SCV2_CUSTOMER_DASHBOARD_URL_STAGING;
@@ -284,4 +284,56 @@ function remove_paymeny_method_row_from_emails( $total_rows, $order, $tax_displa
     ];
 
     return $total_rows;
+}
+
+/*
+ * Add RMA button on order detail, redirect to SCV2.
+ */
+add_action('woocommerce_order_details_after_order_table', 'add_rma_button_detail_order');
+
+function add_rma_button_detail_order( $order ) {
+    // Define brand id
+    global $brand_id;
+
+    // Define SCV2 base url
+    global $base_url;
+
+    // Get config by brand id
+    $request = wp_remote_post( $base_url.'/graphql', [
+        'headers' => [
+          'Content-Type' => 'application/json',
+        ],
+        'body' => wp_json_encode([
+            'query' => '
+                {
+                    getConfiguration(
+                        brandId: "'.$brand_id.'"
+                    ) {
+                        omsUrl
+                        omsChannelCode
+                        isRma
+                    }
+                }
+            '
+        ])
+    ]);
+
+    $decoded_response = json_decode( $request['body'], true );
+    $configs = $decoded_response['data']['getConfiguration'];
+
+    // If order status is BANK TRANSFER, show payment confirm
+    if ( $order->get_status() == 'completed' && $configs['isRma'] == true ) {
+
+        $encodedParams = 'email='.urlencode($order->get_billing_email())
+                        .'&channel_code='.urlencode($configs['omsChannelCode'])
+                        .'&order_number='.urlencode($order->get_id())
+                        .'&from='.urlencode(get_site_url().'/my-account/view-order/'.$order->get_id());
+
+        $url = $configs['omsUrl'].'/omsrma/request/index/?'.$encodedParams;
+
+        // Render HTML
+        echo '<p class="rma">
+                <a href="'.$url.'" class="button">Return</a>
+            </p>';
+    }
 }
