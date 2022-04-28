@@ -255,6 +255,36 @@ function add_payment_confirm_button_detail_order( $order ) {
     }
 }
 
+/*
+ * Display shipping meta data awb number on order detail.
+ */
+add_filter( 'woocommerce_get_order_item_totals', 'remove_paymeny_method_row_from_emails', 10, 3 );
+
+function remove_paymeny_method_row_from_emails( $total_rows, $order, $tax_display ){
+    // Get awb number from meta data
+    $tracking_number_arr = array();
+    foreach ( $order->get_shipping_methods() as $sm ) {
+        foreach ( $sm->get_meta_data() as $md ) {
+            if ( $md->key == 'AWB' ) {
+                $tracking_number_arr[] = '<u>'.$md->value.'</u>';
+            }
+        }
+    }
+
+    // If empty, return not found
+    if ( empty($tracking_number_arr) ) {
+        $tracking_number = 'Not Found';
+    } else {
+        $tracking_number = implode (", ", $tracking_number_arr);
+    }
+
+    $total_rows['shipping'] = [
+        'label' => $total_rows['shipping']['label'],
+        'value' => $total_rows['shipping']['value'].'<br /><small>AWB: '.$tracking_number.'</small>'
+    ];
+
+    return $total_rows;
+}
 
 /*
  * Add RMA button on order detail, redirect to SCV2.
