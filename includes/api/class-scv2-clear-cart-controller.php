@@ -97,6 +97,24 @@ class SCV2_Clear_Cart_v2_Controller {
 
 			do_action( 'scv2_cart_emptied' );
 
+			global $wpdb;
+
+			$cart_key = $request['cart_key'];
+
+			// Clear cart from db
+			$wpdb->update(
+		    	$wpdb->prefix.'scv2_carts', 
+		    	array(
+		    		'cart_billing_address' => '',
+		    		'cart_shipping_address' => '',
+		    		'cart_shipping' => '',
+		    		'cart_payment' => '',
+		    		'cart_coupons' => '',
+		    		'cart_totals' => ''
+		    	), 
+		    	array('cart_key' => $cart_key)
+		    );
+
 			if ( 0 === count( WC()->session->get( 'cart' ) ) ) {
 				do_action( 'scv2_cart_cleared' );
 
