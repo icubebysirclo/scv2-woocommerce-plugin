@@ -152,6 +152,9 @@ final class SCV2 {
 		// Payment Method functions.
 		include_once SCV2_ABSPATH . 'includes/scv2-payment-method-functions.php';
 
+		// Credentials Setup functions.
+		include_once SCV2_ABSPATH . 'includes/scv2-credentials-setup-functions.php';
+
 		// WP-CLI.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			include_once SCV2_ABSPATH . 'includes/class-scv2-cli.php';
