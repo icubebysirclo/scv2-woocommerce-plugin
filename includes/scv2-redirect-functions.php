@@ -2,28 +2,23 @@
 /*
  * SETUP
  */
-define("BRAND_ID_STAGING", "398809496132060018");
-define("BRAND_ID_PRODUCTION", "398809496132060018");
-define("SCV2_URL_STAGING", "https://scv2.gcp-staging.testingnow.me");
-define("SCV2_URL_PRODUCTION", "https://checkout.getswift.asia");
 define("SCV2_CUSTOMER_DASHBOARD_URL_STAGING", "https://scv2-dashboard.gcp-staging.testingnow.me");
 define("SCV2_CUSTOMER_DASHBOARD_URL_PRODUCTION", "https://belanjaku.app");
 define("PRIVATE_KEY", "TXAjwm8k53PJG9NacLbyZavvQB2qBh43");
-define("IS_PRODUCTION", 0);
 
 global $brand_id;
 global $base_url;
 global $base_url_dashboard;
 
 // Define production env
-$brand_id = BRAND_ID_PRODUCTION;
-$base_url = SCV2_URL_PRODUCTION;
+$brand_id = get_option('scv2_brand_id_production');
+$base_url = get_option('scv2_url_production');
 $base_url_dashboard = SCV2_CUSTOMER_DASHBOARD_URL_PRODUCTION; 
 
 // Define production env
-if ( IS_PRODUCTION == 0 ) {
-    $brand_id = BRAND_ID_STAGING;
-    $base_url = SCV2_URL_STAGING;
+if ( get_option('scv2_is_production') == 2 || get_option('scv2_is_production') == false ) {
+    $brand_id = get_option('scv2_brand_id_staging');
+    $base_url = get_option('scv2_url_staging');
     $base_url_dashboard = SCV2_CUSTOMER_DASHBOARD_URL_STAGING;
 }
 
