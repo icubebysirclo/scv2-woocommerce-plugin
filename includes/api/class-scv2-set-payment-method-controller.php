@@ -46,7 +46,7 @@ class SCV2_Set_Payment_Method_v2_Controller {
 	 */
 	public function set_payment_method( $request = array() ) {
 		// Auth
-		if ( is_user_logged_in() ) {
+		// if ( is_user_logged_in() ) {
 			try {
 				// Check cart_key
 				if (! isset($request['cart_key']) ) {
@@ -55,13 +55,12 @@ class SCV2_Set_Payment_Method_v2_Controller {
 
 				// Get parameters
 				$cart_key = $request['cart_key'];
-				$payment_provider = ! isset( $request['payment_provider'] ) ? "" : $request['payment_provider'];
-				$payment_service = ! isset( $request['payment_service'] ) ? "" : $request['payment_service'];
+				$payment_title = ! isset( $request['payment_title'] ) ? "" : $request['payment_title'];
 
 				// Formatting data
 				$cart_payment = array(
 					'method_id' => 'scv2',
-					'method_title' => wc_clean( $payment_provider.' - '.$payment_service ),
+					'method_title' => $payment_title,
 				);
 
 				// Update cart_payment
@@ -86,9 +85,9 @@ class SCV2_Set_Payment_Method_v2_Controller {
 			} catch ( SCV2_Data_Exception $e ) {
 				return SCV2_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 			}
-		}
+		// }
 
-		return SCV2_Response::get_error_response( 'Unauthorized', __('You shall not pass'), 401 );
+		// return SCV2_Response::get_error_response( 'Unauthorized', __('You shall not pass'), 401 );
 	} // END set_payment_method()
 	
 } // END class

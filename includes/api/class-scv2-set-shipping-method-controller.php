@@ -46,7 +46,7 @@ class SCV2_Set_Shipping_Method_v2_Controller {
 	 */
 	public function set_shipping_method( $request = array() ) {
 		// Auth
-		if ( is_user_logged_in() ) {
+		// if ( is_user_logged_in() ) {
 			try {
 				// Check cart_key
 				if (! isset($request['cart_key']) ) {
@@ -55,14 +55,13 @@ class SCV2_Set_Shipping_Method_v2_Controller {
 
 				// Get parameters
 				$cart_key = $request['cart_key'];
-				$shipping_provider = ! isset( $request['shipping_provider'] ) ? "" : $request['shipping_provider'];
-				$shipping_service = ! isset( $request['shipping_service'] ) ? "" : $request['shipping_service'];
+				$shipping_title = ! isset( $request['shipping_title'] ) ? "" : $request['shipping_title'];
 				$shipping_cost 	= ! isset( $request['shipping_cost'] ) ? "" : $request['shipping_cost'];
 
 				// Formatting data
 				$cart_shipping = array(
 					'method_id' => 'scv2',
-					'method_title' => wc_clean( $shipping_provider.' - '.$shipping_service ),
+					'method_title' => $shipping_title,
 					'total' => $shipping_cost 
 				);
 
@@ -88,9 +87,9 @@ class SCV2_Set_Shipping_Method_v2_Controller {
 			} catch ( SCV2_Data_Exception $e ) {
 				return SCV2_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 			}
-		}
+		// }
 
-		return SCV2_Response::get_error_response( 'Unauthorized', __('You shall not pass'), 401 );
+		// return SCV2_Response::get_error_response( 'Unauthorized', __('You shall not pass'), 401 );
 	} // END set_shipping_method()
 
 } // END class

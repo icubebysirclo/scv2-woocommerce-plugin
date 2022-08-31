@@ -47,7 +47,7 @@ class SCV2_Set_Billing_Address_v2_Controller {
 	 */
 	public function set_billing_address( $request = array() ) {
 		// Auth
-		if ( is_user_logged_in() ) {
+		// if ( is_user_logged_in() ) {
 			try {
 				// Check cart_key
 				if (! isset($request['cart_key']) ) {
@@ -118,9 +118,9 @@ class SCV2_Set_Billing_Address_v2_Controller {
 			} catch ( SCV2_Data_Exception $e ) {
 				return SCV2_Response::get_error_response( $e->getErrorCode(), $e->getMessage(), $e->getCode(), $e->getAdditionalData() );
 			}
-		}
+		// }
 
-		return SCV2_Response::get_error_response( 'Unauthorized', __('You shall not pass'), 401 );
+		// return SCV2_Response::get_error_response( 'Unauthorized', __('You shall not pass'), 401 );
 	} // END set_billing_address()
 
 } // END class

@@ -27,21 +27,45 @@ function proceed_to_swift_checkout_v2() {
     // Get cart cookie... if any.
     $cookie = $woocommerce->session->get_session_cookie();
 
+    // If a cookie exist, override cart key.
+    if ( $cookie ) {
+        $cart_key = $cookie[0];
+    }
+
+    // Cart hash
+    $woocommerce_cart_hash_key = '';
+    $woocommerce_cart_hash_value = '';
+
+    // Items in cart
+    $woocommerce_items_in_cart_key = '';
+    $woocommerce_items_in_cart_value = '';
+
+    // SCV2 session
+    $scv2_session_key = '';
+    $scv2_session_value = '';
+
     // Get wp_scv2_session_
     foreach ( $_COOKIE as $key => $value ) {
+        if ( strpos( $key, 'woocommerce_cart_hash') !== FALSE ) {
+            $woocommerce_cart_hash_key = $key;
+            $woocommerce_cart_hash_value = $value;
+        }
+        if ( strpos( $key, 'woocommerce_items_in_cart') !== FALSE ) {
+            $woocommerce_items_in_cart_key = $key;
+            $woocommerce_items_in_cart_value = $value;
+        }
         if ( strpos( $key, 'wp_scv2_session_') !== FALSE ) {
             $scv2_session_key = $key;
             $scv2_session_value = $value;
         }
     }
 
-    // URL encode wp_scv2_session_
+    // URL encode cookie
+    $woocommerce_cart_hash_cookie = $woocommerce_cart_hash_key.'='.urlencode($woocommerce_cart_hash_value);
+    $woocommerce_items_in_cart_cookie = $woocommerce_items_in_cart_key.'='.urlencode($woocommerce_items_in_cart_value);
     $scv2_cookie = $scv2_session_key.'='.urlencode($scv2_session_value);
+    $complete_cookie = $woocommerce_cart_hash_cookie.';'.$woocommerce_items_in_cart_cookie.';'.$scv2_cookie;
 
-    // If a cookie exist, override cart key.
-    if ( $cookie ) {
-        $cart_key = $cookie[0];
-    }
 
     // Logged in customer id
     $customer_id = "";
@@ -53,7 +77,7 @@ function proceed_to_swift_checkout_v2() {
     $payload = [
         "ecp_token" => $customer_id,
         "brand_id" => BRAND_ID,
-        "cart_id" => base64_encode($scv2_cookie.'|'.$cart_key),
+        "cart_id" => base64_encode($complete_cookie.'|'.$cart_key),
         "currency" => get_woocommerce_currency(),
         "email" => $customer_email,
         "isLogin" => $isLogin
