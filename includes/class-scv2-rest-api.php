@@ -97,23 +97,29 @@ class SCV2_REST_API {
 	 */
 	protected function get_v2_controllers() {
 		return array(
-			'scv2-v2-store'             => 'SCV2_Store_V2_Controller',
-			'scv2-v2-cart'              => 'SCV2_Cart_V2_Controller',
-			'scv2-v2-cart-add-item'     => 'SCV2_Add_Item_v2_Controller',
-			'scv2-v2-cart-add-items'    => 'SCV2_Add_Items_v2_Controller',
-			'scv2-v2-cart-item'         => 'SCV2_Item_v2_Controller',
-			'scv2-v2-cart-items'        => 'SCV2_Items_v2_Controller',
-			'scv2-v2-cart-items-count'  => 'SCV2_Count_Items_v2_Controller',
-			'scv2-v2-cart-update-item'  => 'SCV2_Update_Item_v2_Controller',
-			'scv2-v2-cart-remove-item'  => 'SCV2_Remove_Item_v2_Controller',
-			'scv2-v2-cart-restore-item' => 'SCV2_Restore_Item_v2_Controller',
-			'scv2-v2-cart-calculate'    => 'SCV2_Calculate_v2_Controller',
-			'scv2-v2-cart-clear'        => 'SCV2_Clear_Cart_v2_Controller',
-			'scv2-v2-cart-totals'       => 'SCV2_Totals_v2_Controller',
-			'scv2-v2-login'             => 'SCV2_Login_v2_Controller',
-			'scv2-v2-logout'            => 'SCV2_Logout_v2_Controller',
-			'scv2-v2-session'           => 'SCV2_Session_V2_Controller',
-			'scv2-v2-sessions'          => 'SCV2_Sessions_V2_Controller',
+			'scv2-v2-store'             		=> 'SCV2_Store_V2_Controller',
+			'scv2-v2-cart'              		=> 'SCV2_Cart_V2_Controller',
+			'scv2-v2-cart-add-item'     		=> 'SCV2_Add_Item_v2_Controller',
+			'scv2-v2-cart-add-items'    		=> 'SCV2_Add_Items_v2_Controller',
+			'scv2-v2-cart-item'         		=> 'SCV2_Item_v2_Controller',
+			'scv2-v2-cart-items'        		=> 'SCV2_Items_v2_Controller',
+			'scv2-v2-cart-items-count'  		=> 'SCV2_Count_Items_v2_Controller',
+			'scv2-v2-cart-update-item'  		=> 'SCV2_Update_Item_v2_Controller',
+			'scv2-v2-cart-remove-item'  		=> 'SCV2_Remove_Item_v2_Controller',
+			'scv2-v2-cart-restore-item' 		=> 'SCV2_Restore_Item_v2_Controller',
+			'scv2-v2-cart-calculate'    		=> 'SCV2_Calculate_v2_Controller',
+			'scv2-v2-cart-clear'        		=> 'SCV2_Clear_Cart_v2_Controller',
+			'scv2-v2-cart-totals'       		=> 'SCV2_Totals_v2_Controller',
+			'scv2-v2-login'             		=> 'SCV2_Login_v2_Controller',
+			'scv2-v2-logout'            		=> 'SCV2_Logout_v2_Controller',
+			'scv2-v2-session'           		=> 'SCV2_Session_V2_Controller',
+			'scv2-v2-sessions'          		=> 'SCV2_Sessions_V2_Controller',
+			'scv2-v2-cart-set-billing-address'	=> 'SCV2_Set_Billing_Address_v2_Controller',
+			'scv2-v2-cart-set-shipping-address'	=> 'SCV2_Set_Shipping_Address_v2_Controller',
+			'scv2-v2-cart-set-shipping-method'	=> 'SCV2_Set_Shipping_Method_v2_Controller',
+			'scv2-v2-cart-set-payment-method'	=> 'SCV2_Set_Payment_Method_v2_Controller',
+			'scv2-v2-cart-apply-coupon'			=> 'SCV2_Apply_Coupon_v2_Controller',
+			'scv2-v2-cart-remove-coupon'		=> 'SCV2_Remove_Coupon_v2_Controller',
 		);
 	}
 
@@ -261,6 +267,12 @@ class SCV2_REST_API {
 		include_once dirname( __FILE__ ) . '/api/class-scv2-totals-controller.php';
 		include_once dirname( __FILE__ ) . '/api/class-scv2-session-controller.php';
 		include_once dirname( __FILE__ ) . '/api/class-scv2-sessions-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-scv2-set-billing-address-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-scv2-set-shipping-address-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-scv2-set-shipping-method-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-scv2-set-payment-method-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-scv2-apply-coupon-controller.php';
+		include_once dirname( __FILE__ ) . '/api/class-scv2-remove-coupon-controller.php';
 
 		do_action( 'scv2_rest_api_controllers' );
 	} // rest_api_includes()

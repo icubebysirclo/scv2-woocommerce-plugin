@@ -368,16 +368,22 @@ if ( ! class_exists( 'SCV2_Install' ) ) {
 			$collate = $wpdb->has_cap( 'collation' ) ? $wpdb->get_charset_collate() : '';
 
 			$tables = "CREATE TABLE {$wpdb->prefix}scv2_carts (
- cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
- cart_key char(42) NOT NULL,
- cart_value longtext NOT NULL,
- cart_created BIGINT UNSIGNED NOT NULL,
- cart_expiry BIGINT UNSIGNED NOT NULL,
- cart_source varchar(200) NOT NULL,
- cart_hash varchar(200) NOT NULL,
- PRIMARY KEY  (cart_id),
- UNIQUE KEY cart_key (cart_key)
-) $collate;";
+				cart_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+				cart_key char(42) NOT NULL,
+				cart_value longtext NOT NULL,
+				cart_billing_address longtext NOT NULL,
+				cart_shipping_address longtext NOT NULL,
+				cart_shipping longtext NOT NULL,
+				cart_payment longtext NOT NULL,
+				cart_coupons longtext NOT NULL,
+				cart_totals longtext NOT NULL,
+				cart_created BIGINT UNSIGNED NOT NULL,
+				cart_expiry BIGINT UNSIGNED NOT NULL,
+				cart_source varchar(200) NOT NULL,
+				cart_hash varchar(200) NOT NULL,
+				PRIMARY KEY  (cart_id),
+				UNIQUE KEY cart_key (cart_key)
+			) $collate;";
 
 			return $tables;
 		} // END get_schema()
