@@ -8,4 +8,5 @@ Installation Requirements:
     - WooCommerce 4.8 or later.
     - PHP 7.3 or later.
     - Pretty permalinks in  `Settings > Permalinks`  so that the custom endpoints are supported. Default permalinks will not work.
+    - More info: https://woocommerce.com/document/woocommerce-rest-api/
     
