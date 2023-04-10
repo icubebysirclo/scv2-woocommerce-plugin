@@ -69,7 +69,7 @@ class SCV2_Apply_Coupon_v2_Controller {
 				$coupon = new WC_Coupon( $coupon_code );
 
 				// Check coupon to make determine if its valid or not
-			    if( ! $coupon->id && ! isset( $coupon->id ) ) {
+			    if( ! $coupon->is_valid() ) {
 			        return SCV2_Response::get_error_response( 'Failed', __('Coupon does not exist'), 400 );
 			    }
 
