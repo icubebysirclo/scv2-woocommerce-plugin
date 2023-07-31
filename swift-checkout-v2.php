@@ -4,7 +4,7 @@
  * Description: A <strong>quick checkout</strong> made for <strong>WooCommerce</strong>.
  * Author:      ICUBE By Sirclo
  * Author URI:  http://getswift.asia
- * Version:     1.0.0
+ * Version:     1.0.1
  * Domain Path: /languages/
  * Requires at least: 5.4
  * Requires PHP: 7.3
