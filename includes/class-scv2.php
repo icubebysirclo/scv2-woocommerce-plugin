@@ -75,7 +75,7 @@ final class SCV2 {
 		self::define( 'SCV2_PLUGIN_BASENAME', plugin_basename( SCV2_FILE ) );
 		self::define( 'SCV2_VERSION', self::$version );
 		self::define( 'SCV2_DB_VERSION', self::$db_version );
-		self::define( 'SCV2_SLUG', 'cart-rest-api-for-woocommerce' );
+		self::define( 'SCV2_SLUG', 'scv2-woocomerce-plugin-master' );
 		self::define( 'SCV2_URL_PATH', untrailingslashit( plugins_url( '/', SCV2_FILE ) ) );
 		self::define( 'SCV2_FILE_PATH', untrailingslashit( plugin_dir_path( SCV2_FILE ) ) );
 		self::define( 'SCV2_CART_CACHE_GROUP', 'scv2_cart_id' );
@@ -86,6 +86,7 @@ final class SCV2 {
 		self::define( 'SCV2_DOCUMENTATION_URL', 'https://docs.scv2.xyz' );
 		self::define( 'SCV2_TRANSLATION_URL', 'https://translate.scv2.xyz/projects/cart-rest-api-for-woocommerce/' );
 		self::define( 'SCV2_NEXT_VERSION', '1.0.0' );
+		self::define( 'SCV2_RELEASE_URL', 'https://api.github.com/repos/thaariqdev/scv2-woocommerce-plugin/releases/latest' );
 	} // END setup_constants()
 
 	/**

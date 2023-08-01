@@ -43,9 +43,11 @@ if ( ! class_exists( 'SCV2_Admin' ) ) {
 			}
 
 			switch ( $screen->id ) {
+
 				case 'plugins':
 					// include_once SCV2_ABSPATH . 'includes/admin/class-scv2-admin-action-links.php';         // Plugin Action Links.
-					include_once SCV2_ABSPATH . 'includes/admin/class-scv2-admin-plugin-screen-update.php'; // Plugin Update.
+					// include_once SCV2_ABSPATH . 'includes/admin/class-scv2-admin-plugin-screen-update.php'; // Plugin Update.
+					include_once SCV2_ABSPATH . 'includes/admin/class-scv2-admin-update-plugin.php'; // Custom Update Plugins.
 					break;
 			}
 		} // END conditional_includes()
