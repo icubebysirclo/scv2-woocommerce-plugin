@@ -86,7 +86,7 @@ final class SCV2 {
 		self::define( 'SCV2_DOCUMENTATION_URL', 'https://docs.scv2.xyz' );
 		self::define( 'SCV2_TRANSLATION_URL', 'https://translate.scv2.xyz/projects/cart-rest-api-for-woocommerce/' );
 		self::define( 'SCV2_NEXT_VERSION', '1.0.0' );
-		self::define( 'SCV2_RELEASE_URL', 'https://api.github.com/repos/thaariqdev/scv2-woocommerce-plugin/releases/latest' );
+		self::define( 'SCV2_RELEASE_URL', 'https://api.github.com/repos/icubebysirclo/scv2-woocommerce-plugin/releases/latest' );
 	} // END setup_constants()
 
 	/**
